@@ -1,6 +1,6 @@
 import React from "react";
 import { ecommerceLogo } from "../assets/index";
-import {ShoppingBag} from "../assets/index";
+import { ShoppingBag } from "../assets/index";
 const Header = () => {
   return (
     <div className="w-full h-20 bg-white border-b-[1px] border-b-gray-800">
@@ -27,14 +27,14 @@ const Header = () => {
               Blog
             </li>
           </ul>
-          <div>
-          {/* <i class="fa-solid fa-bag-shopping"></i> */}
-          <img src={ShoppingBag} alt="shopping bag"/>
+          <div className="relative">
+            {/* <i class="fa-solid fa-bag-shopping"></i> */}
+            <img className="w-6" src={ShoppingBag} alt="shopping bag" />
+            <span className="absolute w-6 top-1.5 left-0 text-sm flex items-center justify-center font-semibold font-titleFont">0</span>
           </div>
           <div>
-          <i class="fa-solid fa-cart-shopping"></i>
+            <i class="fa-solid fa-cart-shopping"></i>
           </div>
-          
         </div>
       </div>
     </div>
