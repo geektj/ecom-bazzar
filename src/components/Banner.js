@@ -4,8 +4,8 @@ import { HiArrowRight, HiArrowLeft } from "react-icons/hi";
 const Banner = () => {
     const [currentSlide, setCurrentSlide] = useState(0)
   const data = [
-    "https://amazonproone.vercel.app/static/media/img2.bc1bdb910ead16c65197.jpg",
-    "https://amazonproone.vercel.app/static/media/img3.c80809bb40bee5c34372.jpg",
+    {id:1 , bannerImages: "https://amazonproone.vercel.app/static/media/img2.bc1bdb910ead16c65197.jpg"},
+    {id:2, bannerImages: "https://amazonproone.vercel.app/static/media/img3.c80809bb40bee5c34372.jpg"}
   ];
 
   const prevSlide = () => {
@@ -22,9 +22,10 @@ const Banner = () => {
             return (
               <img
                 className="w-screen h-full object-cover"
-                src={img}
+                src={img?.bannerImages}
                 alt="img"
                 loading="priority"
+                key={img.id}
               />
             );
           })}
