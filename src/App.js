@@ -5,11 +5,14 @@ import Footer from './components/Footer';
 import {createBrowserRouter, Outlet, RouterProvider, ScrollRestoration} from 'react-router-dom';
 import Cart from './pages/Cart';
 import { productsData } from './api/Api';
+import Product from './components/Product';
 
 const Layout = () => {
   return(
     <div>
       <Header />
+      {/* scroll resotration use for when we click on home or logo go to the top of the page */}
+      <ScrollRestoration />
       <Outlet />
       <Footer />
     </div>
@@ -25,6 +28,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
         loader: productsData,
+      },
+      {
+        path: "/product/:id",
+        element: <Product />
       },
       {
         path: "/cart",

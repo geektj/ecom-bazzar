@@ -1,14 +1,31 @@
 import React from "react";
 import { BsArrowRight } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const ProductsCard = ({ product }) => {
-  console.log("product", product);
+    const navigate = useNavigate();
+    // const _id = product.title.toLowerCase().split(" ").join("");
+    const _id = product.title;
+    const idString = (_id) => {
+        return String(_id).toLowerCase().split(" ").join("");
+    }
+    const rootId = idString(_id);
+
+    console.log("__id",rootId);
+  const handleProductDetails = () => {
+    navigate(`/product/${rootId}`, {
+        // this state we have to define for particular product details
+        state: {
+            item: product,
+        }
+    });
+  }
   return (
     <div className="group relative">
-      <div className="w-full h-96 cursor-pointer overflow-hidden">
+      <div className="w-full h-96 cursor-pointer overflow-hidden" onClick={handleProductDetails}>
         <img
           src={product?.image}
-          alt="product image"
+          alt="productImg"
           className="w-full h-full object-cover group-hover:scale-110 duration-500"
         />
       </div>
