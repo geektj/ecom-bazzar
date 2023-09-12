@@ -15,7 +15,7 @@ const ProductsCard = ({ product }) => {
   };
   const rootId = idString(_id);
 
-  console.log("__id", rootId);
+//   console.log("__id", rootId);
   const handleProductDetails = () => {
     navigate(`/product/${rootId}`, {
       // this state we have to define for particular product details

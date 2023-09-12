@@ -21,14 +21,36 @@ export const bazarSlice = createSlice({
         },
 
         deleteItem: (state,action) => {
-
+            state.productData = state.productData.filter(
+                (item) => item._id !== action.payload
+            )
         },
 
         resetCart: (state) => {
-            
+            state.productData = [];
+        },
+
+        incrementQuantity: (state,action) => {
+            const item = state.productData.find(
+                (item) => item._id === action.payload._id
+            );
+            if(item){
+                item.quanity++;
+            }
+        },
+
+        decrementQuantity: (state,action) => {
+            const item = state.productData.find(
+                (item) => item._id === action.payload._id
+            )
+            if(item.quanity === 1){
+                item.quanity = 1;
+            }else{
+                item.quanity--;
+            }
         }
     }
 })
 
-export const {addToCart, deleteItem} = bazarSlice.actions;
+export const {addToCart, deleteItem, resetCart, incrementQuantity, decrementQuantity} = bazarSlice.actions;
 export default bazarSlice.reducer;
