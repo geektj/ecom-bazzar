@@ -16,7 +16,7 @@ import { HiOutlineArrowLeft } from "react-icons/hi";
 const CartItem = () => {
   const productData = useSelector((state) => state?.bazar?.productData);
   const dispatch = useDispatch();
-//   console.log("__productData", productData);
+  //   console.log("__productData", productData);
   return (
     <div className="w-2/3 pr-10">
       <div className="w-full">
@@ -106,16 +106,16 @@ const CartItem = () => {
           reset cart
         </button>
       )}
-      {productData.length === 0 ? (
-        <Link to="/">
-          <button className="mt-8 ml-7 flex items-center gap-1 text-gray-400 hover:text-black duration-300">
-            <span>
-              <HiOutlineArrowLeft />
-            </span>
-            go shopping
-          </button>
-        </Link>
-      ) : null}
+      {/* {productData.length === 0 ? ( */}
+      <Link to="/">
+        <button className="mt-8 ml-7 flex items-center gap-1 text-gray-400 hover:text-black duration-300">
+          <span>
+            <HiOutlineArrowLeft />
+          </span>
+          go shopping
+        </button>
+      </Link>
+      {/* ) : null} */}
 
       <ToastContainer
         position="top-left"
