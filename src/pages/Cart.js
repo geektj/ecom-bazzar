@@ -3,10 +3,14 @@ import CartItem from "../components/CartItem";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
+import { toast } from "react-toastify";
+import StripeCheckout from "react-stripe-checkout";
 
 const Cart = () => {
   const productData = useSelector((state) => state?.bazar?.productData);
+  const userInfo = useSelector((state) => state?.bazar?.userInfo);
   const [totalAmt, setTotalAmt] = useState("");
+  const [payNow, setPayNow] = useState(false);
 
   useEffect(() => {
     let price = 0;
@@ -17,6 +21,25 @@ const Cart = () => {
     setTotalAmt(price);
     // console.log("__price",price)
   }, [productData]);
+
+  const handleCheckout = () => {
+    if (userInfo) {
+      setPayNow(true);
+    } else {
+      toast.error("Please sign in to Checkout");
+    }
+  };
+
+  const payment = (token) => {
+    fetch('/save-stripe-token', {
+      method: 'POST',
+      body: JSON.stringify(token),
+    }).then(response => {
+      response.json().then(data => {
+        alert(`We are in business, ${data.email}`);
+      });
+    });
+  }
 
   return (
     <>
@@ -50,9 +73,26 @@ const Cart = () => {
                   {totalAmt}
                 </span>
               </p>
-              <button className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300">
+              <button
+                onClick={handleCheckout}
+                className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300"
+              >
                 proceed to checkout
               </button>
+              {payNow && (
+                <div className="w-full mt-6 flex items-center justify-center">
+                  <StripeCheckout
+                    token={payment}
+                    stripeKey="pk_test_51NqJu2SBL7Z2HRULdBOkOtYhL34R785D8Ma2gRGxiCltdB8n4XDZzZNwi45alelds4qlpKaYkn1xxOA6OcN5hNFQ00ECLDXXwt"
+                    name="Bazar Online Shopping"
+                    amount={totalAmt * 100}
+                    label="Pay Now"
+                    currency="INR"
+                    description={`Your Payment Amount is Rs. ${totalAmt}`}
+                    email={userInfo?.email}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
