@@ -4,7 +4,9 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { toast } from "react-toastify";
-import StripeCheckout from "react-stripe-checkout";
+// import StripeCheckout from "react-stripe-checkout";
+import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const productData = useSelector((state) => state?.bazar?.productData);
@@ -22,24 +24,52 @@ const Cart = () => {
     // console.log("__price",price)
   }, [productData]);
 
-  const handleCheckout = () => {
+  const handleCheckout = async() => {
+    // const stripe = await loadStripe("")
     if (userInfo) {
       setPayNow(true);
-    } else {
+      const stripe = await loadStripe("pk_test_51NqJu2SBL7Z2HRULdBOkOtYhL34R785D8Ma2gRGxiCltdB8n4XDZzZNwi45alelds4qlpKaYkn1xxOA6OcN5hNFQ00ECLDXXwt");
+
+      const body = {
+        products: productData
+      }
+      const headers = {
+        "Content-Type": "application/json"
+      }
+      const response = await fetch("http://localhost:8000/create-checkout-session",{
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body)
+      })
+      const session = await response.json();
+      const result = stripe.redirectToCheckout({
+        sessionId: session.id,
+      })
+      if(result.error){
+        console.log("res.err",result.error)
+      }
+    //   const response = await axios.post("http://localhost:8000/create-checkout-session", {
+    //     products: productData
+    //   })
+    //   const session = await response.json();
+    //   const result = stripe.redirectToCheckout({
+    //     sessionId: session.id,
+    //   })
+    //   if(result.error){
+    //     console.log("res.err",result.error)
+    //   }
+    }
+     else {
       toast.error("Please sign in to Checkout");
     }
   };
 
-  const payment = (token) => {
-    fetch('/save-stripe-token', {
-      method: 'POST',
-      body: JSON.stringify(token),
-    }).then(response => {
-      response.json().then(data => {
-        alert(`We are in business, ${data.email}`);
-      });
-    });
-  }
+  // const payment = async (token) => {
+  //   await axios.post("http://localhost:8000/create-checkout-session", {
+  //     amount: totalAmt,
+  //     token: token,
+  //   });
+  // }
 
   return (
     <>
@@ -79,7 +109,7 @@ const Cart = () => {
               >
                 proceed to checkout
               </button>
-              {payNow && (
+              {/* {payNow && (
                 <div className="w-full mt-6 flex items-center justify-center">
                   <StripeCheckout
                     token={payment}
@@ -87,12 +117,12 @@ const Cart = () => {
                     name="Bazar Online Shopping"
                     amount={totalAmt * 100}
                     label="Pay Now"
-                    currency="INR"
+                    currency="usd"
                     description={`Your Payment Amount is Rs. ${totalAmt}`}
                     email={userInfo?.email}
                   />
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
