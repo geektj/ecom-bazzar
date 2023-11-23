@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { toast } from "react-toastify";
 // import StripeCheckout from "react-stripe-checkout";
-import axios from "axios";
+// import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
